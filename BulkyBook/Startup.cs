@@ -62,6 +62,7 @@ namespace BulkyBook
             {
                 endpoints.MapControllerRoute(
                     name: "default",
+                    //area = Customer - this is default pages when customer opens the website
                     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
