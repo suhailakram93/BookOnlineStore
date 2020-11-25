@@ -75,6 +75,7 @@ namespace BulkyBook.DataAccess.Repository
         public void Remove(int id)
         {
             T entity = dbSet.Find(id);
+            Remove(entity);
         }
 
         public void Remove(T entity)
