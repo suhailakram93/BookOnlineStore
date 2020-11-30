@@ -61,7 +61,7 @@ namespace BulkyBook.Areas.Customer.Controllers
         [Authorize]
         public IActionResult Details(ShoppingCart CartObject)
         {
-            CartObject.id = 0;
+            CartObject.Id = 0;
             if (ModelState.IsValid)
             {
                 //then we will add to card

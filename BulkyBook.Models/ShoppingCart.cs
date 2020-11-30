@@ -13,7 +13,7 @@ namespace BulkyBook.Models
             Count = 1;
         }
         [Key]
-        public int id { get; set; }
+        public int Id { get; set; }
         public string ApplicationUserId { get; set; }
         [ForeignKey("ApplicationUserId")]
         public ApplicationUser ApplicationUser { get; set; }

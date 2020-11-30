@@ -9,7 +9,6 @@ using BulkyBook.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 namespace BulkyBook.Areas.Admin.Controllers
 {
     [Area("Admin")]
@@ -22,32 +21,35 @@ namespace BulkyBook.Areas.Admin.Controllers
         {
             _db = db;
         }
+
         public IActionResult Index()
         {
             return View();
         }
+
+
 
         #region API CALLS
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var userList = _db.ApplicationUsers.Include(u=>u.Company).ToList();
+            var userList = _db.ApplicationUsers.Include(u => u.Company).ToList();
             var userRole = _db.UserRoles.ToList();
             var roles = _db.Roles.ToList();
-            foreach(var user in userList)
+            foreach (var user in userList)
             {
-                //display inside datarole table - display roleId & display userRole
                 var roleId = userRole.FirstOrDefault(u => u.UserId == user.Id).RoleId;
                 user.Role = roles.FirstOrDefault(u => u.Id == roleId).Name;
-                if(user.Company == null)
+                if (user.Company == null)
                 {
                     user.Company = new Company()
                     {
-                        Name = ""           //if company is null we will enter
+                        Name = ""
                     };
                 }
             }
+
             return Json(new { data = userList });
         }
 
@@ -61,7 +63,7 @@ namespace BulkyBook.Areas.Admin.Controllers
             }
             if (objFromDb.LockoutEnd != null && objFromDb.LockoutEnd > DateTime.Now)
             {
-                //user is currently locked, we will unlock
+                //user is currently locked, we will unlock them
                 objFromDb.LockoutEnd = DateTime.Now;
             }
             else
@@ -69,8 +71,9 @@ namespace BulkyBook.Areas.Admin.Controllers
                 objFromDb.LockoutEnd = DateTime.Now.AddYears(1000);
             }
             _db.SaveChanges();
-            return Json(new { success = true, message = "User Locked." });
+            return Json(new { success = true, message = "Operation Successful." });
         }
+
         #endregion
     }
 }

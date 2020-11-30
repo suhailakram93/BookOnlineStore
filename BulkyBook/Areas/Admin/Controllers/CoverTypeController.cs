@@ -21,28 +21,30 @@ namespace BulkyBook.Areas.Admin.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+
         public IActionResult Index()
         {
             return View();
         }
+
         public IActionResult Upsert(int? id)
         {
             CoverType coverType = new CoverType();
-            if(id == null)
+            if (id == null)
             {
                 //this is for create
                 return View(coverType);
             }
-            //this is for Edit
+            //this is for edit
             var parameter = new DynamicParameters();
             parameter.Add("@Id", id);
             coverType = _unitOfWork.SP_Call.OneRecord<CoverType>(SD.Proc_CoverType_Get, parameter);
-
             if (coverType == null)
             {
                 return NotFound();
             }
             return View(coverType);
+
         }
 
         [HttpPost]
@@ -51,17 +53,18 @@ namespace BulkyBook.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var paramater = new DynamicParameters();
-                paramater.Add("@Name", coverType.Name);
-                if(coverType.Id == 0)
+                var parameter = new DynamicParameters();
+                parameter.Add("@Name", coverType.Name);
+
+                if (coverType.Id == 0)
                 {
-                    _unitOfWork.SP_Call.Execute(SD.Proc_CoverType_Create,paramater);
-                    
+                    _unitOfWork.SP_Call.Execute(SD.Proc_CoverType_Create, parameter);
+
                 }
                 else
                 {
-                    paramater.Add("@Id", coverType.Id);
-                    _unitOfWork.SP_Call.Execute(SD.Proc_CoverType_Update, paramater);
+                    parameter.Add("@Id", coverType.Id);
+                    _unitOfWork.SP_Call.Execute(SD.Proc_CoverType_Update, parameter);
                 }
                 _unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
@@ -69,13 +72,13 @@ namespace BulkyBook.Areas.Admin.Controllers
             return View(coverType);
         }
 
+
         #region API CALLS
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            //using HTTP were calling here inside of Index view
-            var allObj = _unitOfWork.SP_Call.List<CoverType>(SD.Proc_CoverType_GetAll,null);
+            var allObj = _unitOfWork.SP_Call.List<CoverType>(SD.Proc_CoverType_GetAll, null);
             return Json(new { data = allObj });
         }
 
@@ -84,18 +87,17 @@ namespace BulkyBook.Areas.Admin.Controllers
         {
             var parameter = new DynamicParameters();
             parameter.Add("@Id", id);
-            var objFromDb = _unitOfWork.SP_Call.OneRecord<CoverType>(SD.Proc_CoverType_Get,parameter);
+            var objFromDb = _unitOfWork.SP_Call.OneRecord<CoverType>(SD.Proc_CoverType_Get, parameter);
             if (objFromDb == null)
             {
                 return Json(new { success = false, message = "Error while deleting" });
             }
             _unitOfWork.SP_Call.Execute(SD.Proc_CoverType_Delete, parameter);
             _unitOfWork.Save();
-            return Json(new { success = true, message = "Deleted Successfully" });
+            return Json(new { success = true, message = "Delete Successful" });
+
         }
 
-
         #endregion
-
     }
 }

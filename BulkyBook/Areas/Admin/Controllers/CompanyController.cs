@@ -85,9 +85,6 @@ namespace BulkyBook.Areas.Admin.Controllers
             _unitOfWork.Save();
             return Json(new { success = true, message = "Deleted Successfully" });
         }
-
-
         #endregion
-
     }
 }
