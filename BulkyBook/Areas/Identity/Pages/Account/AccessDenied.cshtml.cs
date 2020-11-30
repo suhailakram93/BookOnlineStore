@@ -14,4 +14,3 @@ namespace BulkyBook.Areas.Identity.Pages.Account
         }
     }
 }
-

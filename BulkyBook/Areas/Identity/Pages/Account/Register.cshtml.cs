@@ -108,7 +108,7 @@ namespace BulkyBook.Areas.Identity.Pages.Account
                     Value = i
                 })
             };
-            
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
