@@ -1,2 +1,3 @@
-# This project is my personal project where i'm building an web application - .Net Core MVC pattern
-#Here i'm using MSSQL Database
+# This project Web Application using .Net Core MVC and MSSQL on premise, This is also published on cloud using Azure App Services - Azure SQL database.
+
+To access this webapplication you can go to https://bookonlineshopservice.azurewebsites.net/
